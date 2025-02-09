@@ -9,10 +9,6 @@ import json
 from dotenv import load_dotenv
 import os
 
-# Load the NREL API key from the .env file
-load_dotenv() 
-API_KEY = os.getenv("nreal_api_key")
-
 class UtilityRatesFetcher:
     def __init__(self, api_key: str):
         """
@@ -47,7 +43,9 @@ class UtilityRatesFetcher:
             return {"error": f"API request failed with status code {response.status_code}"}
 
 if __name__ == "__main__":
-    API_KEY = "YOUR_NREL_API_KEY"  # Replace with your actual API key
+    # Load the NREL API key from the .env file
+    load_dotenv() 
+    API_KEY = os.getenv("nreal_api_key")
     address = '4202 E Fowler Ave, Tampa, FL 33620'
     fetcher = UtilityRatesFetcher(API_KEY)
     result = fetcher.get_residential_rate(address)
