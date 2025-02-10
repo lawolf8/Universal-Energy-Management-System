@@ -1,3 +1,8 @@
+'''
+Weather Data Fetcher
+API Information: https://www.weather.gov/documentation/services-web-api
+'''
+
 import requests
 import json
 import pgeocode
