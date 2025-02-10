@@ -1,0 +1,1 @@
+Washing Machine Data: https://github.com/siemens/simatic-ai-launcher/tree/master/datasets/washing-machine
