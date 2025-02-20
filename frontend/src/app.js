@@ -1,30 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/Dashboard";
+import AccountSettings from "./components/AccountSettings";
+import userData from "./utils/userData";
 import "./index.css";
 
 function App() {
-  const user = {
-    name: "Albert",
-    weather: "Rainy, 19°C",
-    humidity: 65,
-    totalConsumption: 160,
-    lighting: { intensity: "80%" },
-    thermostat: { temperature: 25 },
-    devices: [
-      { name: "Smart Light", status: "On", image: require("./assets/images/lightbulb.png") },
-      { name: "Air Conditioner", status: "Off", image: require("./assets/images/speaker.png") },
-      { name: "Door Lock", status: "Locked", image: require("./assets/images/fridge.png") },
-      { name: "Cleaning Vacuum", status: "Off", image: require("./assets/images/dryer.png") },
-      { name: "Unknown Device", status: "N/A", image: require("./assets/images/noniot.png") }
-    ]
+  const [rooms, setRooms] = useState([
+    { name: "Living Room" },
+    { name: "Bedroom" },
+    { name: "Kitchen" },
+    { name: "Dining Room" },
+    { name: "Play Room" }
+  ]);
+
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [showAccountSettings, setShowAccountSettings] = useState(false);
+  const [selectedDevice, setSelectedDevice] = useState(null);
+
+  const addRoom = () => {
+    const roomName = prompt("Enter the new room name:");
+    if (roomName) {
+      setRooms([...rooms, { name: roomName }]);
+    }
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <Sidebar className="w-1/8" />
-      <main className="flex-grow p-6">
-        <Dashboard user={user} />
+    <div className="flex h-screen bg-gray-100 overflow-hidden">
+      <Sidebar
+        rooms={rooms}
+        addRoom={addRoom}
+        setSelectedRoom={(room) => {
+          setShowAccountSettings(false);
+          setSelectedRoom(room);
+        }}
+        setShowAccountSettings={() => {
+          setShowAccountSettings(true);
+          setSelectedRoom(null);
+        }}
+        goHome={() => {
+          setSelectedRoom(null);
+          setShowAccountSettings(false);
+        }}
+      />
+      <main className="flex-grow p-6 overflow-auto">
+        {showAccountSettings ? (
+          <AccountSettings account={userData.account} />
+        ) : (
+          <Dashboard
+            user={userData}
+            selectedRoom={selectedRoom}
+            setSelectedDevice={setSelectedDevice}
+          />
+        )}
       </main>
     </div>
   );

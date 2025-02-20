@@ -1,16 +1,31 @@
 import React from "react";
+import lightbulb from "../assets/images/lightbulb.png";
+import noniot from "../assets/images/noniot.png";
+import television from "../assets/images/television.png";
+import fridge from "../assets/images/fridge.png";
 
-function DeviceCard({ name, status, image }) {
+const deviceImages = {
+  "Smart Light": lightbulb,
+  "Television": television,
+  "Fridge": fridge
+};
+
+function DeviceCard({ device, onClick }) {
   return (
-    <div className="bg-white p-5 rounded-xl shadow-md flex flex-col items-center">
-      <img src={image} alt={name} className="w-16 h-16 mb-3" />
-      <h3 className="text-lg font-semibold">{name}</h3>
-      <p className={`text-sm ${status === "On" ? "text-green-500" : "text-red-500"}`}>
-        Status: {status}
+    <div
+      className="bg-gray-200 p-4 rounded-lg shadow cursor-pointer flex flex-col items-center"
+      onClick={() => onClick(device)}
+    >
+      <img
+        src={deviceImages[device.name] || noniot}
+        alt={device.name}
+        className="w-16 h-16 mb-2"
+      />
+      <h3 className="text-lg font-semibold">{device.name}</h3>
+      <p className={`text-sm ${device.status === "On" ? "text-green-500" : "text-red-500"}`}>
+        Status: {device.status}
       </p>
-      <button className="bg-blue-500 text-white px-4 py-2 rounded mt-2 shadow-md">
-        Toggle
-      </button>
+      <p className="text-sm text-gray-600">Room: {device.room}</p>
     </div>
   );
 }

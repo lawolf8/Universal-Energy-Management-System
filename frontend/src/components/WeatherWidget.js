@@ -1,12 +1,30 @@
 import React from "react";
-import weatherIcon from "../assets/images/cloudy.png";
+import cloudy from "../assets/images/cloudy.png";
+import sun from "../assets/images/sun.png";
+import snowy from "../assets/images/snowy.png";
+import hail from "../assets/images/hail.png";
+import cloud from "../assets/images/cloud.png"; // Fallback image
+
+const weatherIcons = {
+  Rainy: cloudy,
+  Sunny: sun,
+  Snowy: snowy,
+  Hail: hail
+};
 
 function WeatherWidget({ weather }) {
   return (
-    <div className="bg-blue-200 p-5 rounded-xl shadow-md flex flex-col items-center">
-      <img src={weatherIcon} alt="Weather Icon" className="w-14 h-14 mb-3" />
-      <h3 className="text-lg font-bold">Weather</h3>
-      <p className="text-xl">{weather}</p>
+    <div className="bg-blue-200 p-4 rounded-lg shadow flex items-center">
+      <img
+        src={weatherIcons[weather.condition] || cloud}
+        alt="Weather"
+        className="w-12 h-12 mr-4"
+      />
+      <div>
+        <h2 className="text-lg font-semibold">Weather</h2>
+        <p className="text-xl font-bold">{weather.temperature}°C</p>
+        <p>{weather.condition}</p>
+      </div>
     </div>
   );
 }
