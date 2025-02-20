@@ -109,5 +109,5 @@ This project is licensed under the **MIT License**.
 For any questions or contributions, feel free to reach out!
 
 - **Developer:** Luke Alexander Wolf
-- **Email:** [your-email@example.com]
-- **LinkedIn:** [Your LinkedIn Profile](https://linkedin.com/in/your-profile)
+- **Email:** [lawolf@usf.edu]
+- **LinkedIn:** [Your LinkedIn Profile](https://linkedin.com/in/lukeawolf)
