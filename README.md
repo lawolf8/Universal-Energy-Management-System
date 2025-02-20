@@ -16,7 +16,7 @@ This repository contains the **frontend** and **backend** components of the UEMS
 
 The **Hybrid Machine Learning (HML) model** combines **Recurrent Neural Networks (RNNs)** for energy demand prediction and **Mixed-Integer Linear Programming (MILP)** for real-time decision-making. This approach ensures both **predictive planning** and **optimal real-time adjustments** to minimize energy costs.
 
-![HML Model Mapping](hml_model.png)
+![HML Model Mapping](HML_Model.png)
 
 **HML Breakdown:**
 - **RNN (LSTM/GRU):** Predicts household energy demand based on historical usage patterns.
