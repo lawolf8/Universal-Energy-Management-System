@@ -12,10 +12,11 @@ function App() {
     lighting: { intensity: "80%" },
     thermostat: { temperature: 25 },
     devices: [
-      { name: "Smart Light", status: "On" },
-      { name: "Air Conditioner", status: "Off" },
-      { name: "Door Lock", status: "Locked" },
-      { name: "Cleaning Vacuum", status: "Off" }
+      { name: "Smart Light", status: "On", image: require("./assets/images/lightbulb.png") },
+      { name: "Air Conditioner", status: "Off", image: require("./assets/images/speaker.png") },
+      { name: "Door Lock", status: "Locked", image: require("./assets/images/fridge.png") },
+      { name: "Cleaning Vacuum", status: "Off", image: require("./assets/images/dryer.png") },
+      { name: "Unknown Device", status: "N/A", image: require("./assets/images/noniot.png") }
     ]
   };
 

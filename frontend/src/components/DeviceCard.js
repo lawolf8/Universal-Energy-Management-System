@@ -1,13 +1,18 @@
 import React from "react";
 
-const DeviceCard = ({ name, status }) => {
+function DeviceCard({ name, status, image }) {
   return (
-    <div className="bg-gray-200 p-4 rounded-lg shadow text-center">
-      <h2 className="text-lg font-semibold mb-2">{name}</h2>
-      <p className="text-sm font-medium">Status: {status}</p>
-      <button className="mt-2 p-2 bg-blue-500 text-white rounded">Toggle</button>
+    <div className="bg-white p-5 rounded-xl shadow-md flex flex-col items-center">
+      <img src={image} alt={name} className="w-16 h-16 mb-3" />
+      <h3 className="text-lg font-semibold">{name}</h3>
+      <p className={`text-sm ${status === "On" ? "text-green-500" : "text-red-500"}`}>
+        Status: {status}
+      </p>
+      <button className="bg-blue-500 text-white px-4 py-2 rounded mt-2 shadow-md">
+        Toggle
+      </button>
     </div>
   );
-};
+}
 
 export default DeviceCard;
