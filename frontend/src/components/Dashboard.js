@@ -26,6 +26,7 @@ const Dashboard = ({ user }) => {
         <div className="bg-gray-200 p-4 rounded-lg shadow">
           <h2 className="text-lg font-semibold mb-2">Total Consumption</h2>
           <p className="text-xl font-bold">{user.totalConsumption} kWh</p>
+          <p className="text-sm">Cost: ${(user.totalConsumption * 0.12).toFixed(2)}/hr</p>
         </div>
       </div>
 
