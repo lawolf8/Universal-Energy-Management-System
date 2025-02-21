@@ -31,7 +31,7 @@ function App() {
       <Sidebar rooms={rooms} addRoom={addRoom} setSelectedRoom={setSelectedRoom} setShowAccountSettings={setShowAccountSettings} />
       <main className="flex-grow p-6 overflow-auto relative">
         {showAccountSettings ? (
-          <AccountSettings />
+          <AccountSettings setShowAccountSettings={setShowAccountSettings} />
         ) : (
           <Dashboard user={userData} selectedRoom={selectedRoom} setSelectedDevice={setSelectedDevice} />
         )}
