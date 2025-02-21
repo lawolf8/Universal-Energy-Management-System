@@ -1,15 +1,18 @@
+// Dashboard.jsx
+
 import React, { useState } from "react";
 import { Search, Home } from 'lucide-react';
 import WeatherWidget from "./WeatherWidget";
 import DeviceCard from "./DeviceCard";
 import LightingControl from "./LightingControl";
 import ThermostatControl from "./ThermostatControl";
+import humidityIcon from "../assets/images/humidity.png"; // or your SVG icon
 
 const Dashboard = ({ user, selectedRoom, setSelectedDevice }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredDevices = selectedRoom
-    ? user.devices.filter((device) => 
+    ? user.devices.filter((device) =>
         device.room === selectedRoom.name &&
         device.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
@@ -19,6 +22,7 @@ const Dashboard = ({ user, selectedRoom, setSelectedDevice }) => {
 
   return (
     <div className="w-full max-w-7xl mx-auto p-6 space-y-6">
+      {/* Top Bar */}
       <div className="flex items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-4">
           {selectedRoom && (
@@ -46,21 +50,39 @@ const Dashboard = ({ user, selectedRoom, setSelectedDevice }) => {
         </div>
       </div>
 
+      {/* Main Dashboard Widgets */}
       {!selectedRoom && (
         <>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            {/* Weather */}
             <WeatherWidget weather={user.weather} />
-            <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-              <h2 className="text-xl font-semibold mb-2">Humidity</h2>
-              <p className="text-3xl font-bold text-blue-500">{user.humidity}%</p>
+
+            {/* Humidity - same style as WeatherWidget */}
+            <div className="bg-blue-200 p-4 rounded-lg shadow flex items-center">
+              <img
+                src={humidityIcon}
+                alt="Humidity Icon"
+                className="w-12 h-12 mr-4"
+              />
+              <div>
+                <h2 className="text-lg font-semibold">Humidity</h2>
+                <p className="text-3xl font-bold text-blue-500">{user.humidity}%</p>
+              </div>
             </div>
+
+            {/* Total Consumption */}
             <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
               <h2 className="text-xl font-semibold mb-2">Total Consumption</h2>
-              <p className="text-3xl font-bold text-green-500">{user.totalConsumption} kWh</p>
-              <p className="text-sm text-gray-600">Cost: ${(user.totalConsumption * 0.12).toFixed(2)}/hr</p>
+              <p className="text-3xl font-bold text-green-500">
+                {user.totalConsumption} kWh
+              </p>
+              <p className="text-sm text-gray-600">
+                Cost: ${(user.totalConsumption * 0.12).toFixed(2)}/hr
+              </p>
             </div>
           </div>
 
+          {/* Lighting & Thermostat Controls */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <LightingControl intensity={user.lighting.intensity} />
             <ThermostatControl temperature={user.thermostat.temperature} />
@@ -68,6 +90,7 @@ const Dashboard = ({ user, selectedRoom, setSelectedDevice }) => {
         </>
       )}
 
+      {/* Device List */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredDevices.length > 0 ? (
           filteredDevices.map((device) => (

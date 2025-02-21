@@ -123,7 +123,7 @@ function AccountSettings({
   };
 
   return (
-    <div className="p-6 bg-white rounded shadow-md overflow-y-auto h-screen">
+    <div className="p-6 bg-white rounded shadow-md">
       {/* Back Button */}
       <button
         className="bg-gray-500 text-white p-2 rounded mb-4"
@@ -214,10 +214,11 @@ function AccountSettings({
 
       {/* Work Schedule Table */}
       <h3 className="text-xl font-semibold mt-6 mb-2">
-        Work Schedule (Click and Drag to Select):
+        Away From Home Schedule (Click and Drag to Select):
       </h3>
+      {/* Removed overflow-auto from this container */}
       <div 
-        className="overflow-auto bg-gray-200 p-4 rounded-lg"
+        className="bg-gray-200 p-4 rounded-lg"
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
       >
