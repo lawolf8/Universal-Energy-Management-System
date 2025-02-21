@@ -26,17 +26,51 @@ function App() {
     }
   };
 
+  const goHome = () => {
+    setSelectedRoom(null);
+    setShowAccountSettings(false);
+  };
+
+  // Function to handle room selection
+  const handleRoomSelect = (room) => {
+    setSelectedRoom(room);
+    setShowAccountSettings(false);
+  };
+
+  // Function to handle account settings
+  const handleAccountSettings = () => {
+    setShowAccountSettings(true);
+    setSelectedRoom(null);
+  };
+
   return (
     <div className="flex h-screen bg-gray-100 overflow-hidden">
-      <Sidebar rooms={rooms} addRoom={addRoom} setSelectedRoom={setSelectedRoom} setShowAccountSettings={setShowAccountSettings} />
+      <Sidebar 
+        rooms={rooms} 
+        addRoom={addRoom} 
+        setSelectedRoom={handleRoomSelect}
+        setShowAccountSettings={handleAccountSettings}
+        goHome={goHome}
+      />
       <main className="flex-grow p-6 overflow-auto relative">
         {showAccountSettings ? (
-          <AccountSettings setShowAccountSettings={setShowAccountSettings} />
+          <AccountSettings 
+            setShowAccountSettings={setShowAccountSettings} 
+            userData={userData}  // Make sure userData is properly passed
+          />
         ) : (
-          <Dashboard user={userData} selectedRoom={selectedRoom} setSelectedDevice={setSelectedDevice} />
+          <Dashboard 
+            user={userData} 
+            selectedRoom={selectedRoom} 
+            setSelectedDevice={setSelectedDevice} 
+          />
         )}
         {selectedDevice && (
-          <DevicePopup device={selectedDevice} setSelectedDevice={setSelectedDevice} rooms={rooms} />
+          <DevicePopup 
+            device={selectedDevice} 
+            setSelectedDevice={setSelectedDevice} 
+            rooms={rooms} 
+          />
         )}
       </main>
     </div>
