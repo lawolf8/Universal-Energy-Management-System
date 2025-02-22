@@ -1,15 +1,14 @@
-// Dashboard.jsx
-
 import React, { useState } from "react";
-import { Search, Home } from 'lucide-react';
+import { Search, Home, Power, TrendingDown } from 'lucide-react';
 import WeatherWidget from "./WeatherWidget";
 import DeviceCard from "./DeviceCard";
 import LightingControl from "./LightingControl";
 import ThermostatControl from "./ThermostatControl";
-import humidityIcon from "../assets/images/humidity.png"; // or your SVG icon
+import { RoomEnergyCard, HomeEnergyPopup } from "./EnergyAnalytics";
 
 const Dashboard = ({ user, selectedRoom, setSelectedDevice }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [showEnergyPopup, setShowEnergyPopup] = useState(false);
 
   const filteredDevices = selectedRoom
     ? user.devices.filter((device) =>
@@ -21,7 +20,7 @@ const Dashboard = ({ user, selectedRoom, setSelectedDevice }) => {
       );
 
   return (
-    <div className="w-full max-w-7xl mx-auto p-6 space-y-6">
+    <div className="w-full max-w-7xl mx-auto p-6 space-y-8">
       {/* Top Bar */}
       <div className="flex items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-4">
@@ -50,6 +49,11 @@ const Dashboard = ({ user, selectedRoom, setSelectedDevice }) => {
         </div>
       </div>
 
+      {/* Room Energy Card (when room is selected) */}
+      {selectedRoom && (
+        <RoomEnergyCard room={selectedRoom} />
+      )}
+
       {/* Main Dashboard Widgets */}
       {!selectedRoom && (
         <>
@@ -57,32 +61,37 @@ const Dashboard = ({ user, selectedRoom, setSelectedDevice }) => {
             {/* Weather */}
             <WeatherWidget weather={user.weather} />
 
-            {/* Humidity - same style as WeatherWidget */}
-            <div className="bg-blue-200 p-4 rounded-lg shadow flex items-center">
-              <img
-                src={humidityIcon}
-                alt="Humidity Icon"
-                className="w-12 h-12 mr-4"
-              />
-              <div>
-                <h2 className="text-lg font-semibold">Humidity</h2>
-                <p className="text-3xl font-bold text-blue-500">{user.humidity}%</p>
+            {/* Total Consumption Card - Clickable */}
+            <div 
+              className="bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer hover:shadow-xl transition-shadow"
+              onClick={() => setShowEnergyPopup(true)}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <Power className="w-6 h-6 text-blue-500" />
+                <h2 className="text-xl font-semibold">Total Consumption</h2>
+              </div>
+              <p className="text-3xl font-bold text-blue-500">
+                {user.totalConsumption} kWh
+              </p>
+              <div className="mt-2 flex items-center text-sm text-gray-600">
+                <TrendingDown className="w-4 h-4 mr-1" />
+                <span>Click for detailed analytics</span>
               </div>
             </div>
 
-            {/* Total Consumption */}
-            <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-              <h2 className="text-xl font-semibold mb-2">Total Consumption</h2>
+            {/* Cost Summary */}
+            <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+              <h2 className="text-xl font-semibold mb-4">Cost Summary</h2>
               <p className="text-3xl font-bold text-green-500">
-                {user.totalConsumption} kWh
+                ${(user.totalConsumption * 0.12).toFixed(2)}
               </p>
-              <p className="text-sm text-gray-600">
-                Cost: ${(user.totalConsumption * 0.12).toFixed(2)}/hr
+              <p className="mt-2 text-sm text-gray-600">
+                Based on current rates
               </p>
             </div>
           </div>
 
-          {/* Lighting & Thermostat Controls */}
+          {/* Controls Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <LightingControl intensity={user.lighting.intensity} />
             <ThermostatControl temperature={user.thermostat.temperature} />
@@ -90,11 +99,15 @@ const Dashboard = ({ user, selectedRoom, setSelectedDevice }) => {
         </>
       )}
 
-      {/* Device List */}
+      {/* Device Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredDevices.length > 0 ? (
           filteredDevices.map((device) => (
-            <DeviceCard key={device.id} device={device} onClick={setSelectedDevice} />
+            <DeviceCard 
+              key={device.id} 
+              device={device} 
+              onClick={setSelectedDevice} 
+            />
           ))
         ) : (
           <div className="col-span-full text-center py-8">
@@ -102,6 +115,11 @@ const Dashboard = ({ user, selectedRoom, setSelectedDevice }) => {
           </div>
         )}
       </div>
+
+      {/* Energy Analytics Popup */}
+      {showEnergyPopup && (
+        <HomeEnergyPopup onClose={() => setShowEnergyPopup(false)} />
+      )}
     </div>
   );
 };
