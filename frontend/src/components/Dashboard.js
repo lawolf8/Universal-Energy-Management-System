@@ -246,7 +246,7 @@ const Dashboard = ({ user, selectedRoom, setSelectedDevice }) => {
 
           {/* Use the ThermostatControl component - now smaller */}
           <ThermostatControl 
-            temperature={user.thermostat?.temperature || 72}
+            temperature={user.thermostat?.temperature || 75}
             unit="°F"
             minTemp={50}
             maxTemp={90}

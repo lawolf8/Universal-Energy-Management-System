@@ -10,7 +10,7 @@ const userData = {
     intensity: 80,
   },
   thermostat: {
-    temperature: 25,
+    temperature: 75,
   },
   rooms: [
     { name: "Living Room", icon: "Living Room" },

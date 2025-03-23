@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThermometerIcon, ChevronUp, ChevronDown } from 'lucide-react';
 import '../pulse-theme.css';
 
-const ThermostatControl = ({ temperature = 72, unit = '°F', minTemp = 50, maxTemp = 90 }) => {
+const ThermostatControl = ({ temperature = 75, unit = '°F', minTemp = 50, maxTemp = 90 }) => {
+  // Initialize with the prop value and ensure it updates if prop changes
   const [currentTemp, setCurrentTemp] = useState(temperature);
+  
+  // Update state when prop changes
+  useEffect(() => {
+    setCurrentTemp(temperature);
+  }, [temperature]);
   
   const increaseTemp = () => {
     if (currentTemp < maxTemp) {
@@ -47,6 +53,7 @@ const ThermostatControl = ({ temperature = 72, unit = '°F', minTemp = 50, maxTe
             className="p-2 rounded-full bg-white hover:bg-gray-100 active:bg-gray-200 transition-colors shadow-sm border border-gray-200"
             aria-label="Decrease temperature"
             type="button"
+            data-testid="decrease-temp-button"
           >
             <ChevronDown className="w-5 h-5 text-gray-500" />
           </button>
@@ -61,6 +68,7 @@ const ThermostatControl = ({ temperature = 72, unit = '°F', minTemp = 50, maxTe
             className="p-2 rounded-full bg-white hover:bg-gray-100 active:bg-gray-200 transition-colors shadow-sm border border-gray-200"
             aria-label="Increase temperature"
             type="button"
+            data-testid="increase-temp-button"
           >
             <ChevronUp className="w-5 h-5 text-gray-500" />
           </button>

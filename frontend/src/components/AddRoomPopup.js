@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { 
   FaCouch, FaBed, FaUtensils, FaChair, FaGamepad, 
-  FaDesktop, FaBath, FaCar, FaBook, FaDumbbell 
+  FaDesktop, FaBath, FaCar, FaBook, FaDumbbell,
+  FaTimes
 } from 'react-icons/fa';
 
 const roomIcons = {
@@ -39,7 +40,16 @@ function AddRoomPopup({ onClose, onAdd }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-full max-w-md">
+      <div className="bg-white rounded-lg p-6 w-full max-w-md relative">
+        {/* Close button at the top right */}
+        <button 
+          onClick={onClose}
+          className="absolute top-4 right-4 p-2 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-800 shadow-sm"
+          aria-label="Close"
+        >
+          <FaTimes size={16} className="text-gray-800" />
+        </button>
+        
         <h2 className="text-2xl font-bold mb-4">Add New Room</h2>
         
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -53,7 +63,7 @@ function AddRoomPopup({ onClose, onAdd }) {
                 type="button"
                 onClick={() => setIsCustom(false)}
                 className={`px-4 py-2 rounded-lg ${
-                  !isCustom ? 'bg-blue-500 text-white' : 'bg-gray-100'
+                  !isCustom ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-800 font-medium'
                 }`}
               >
                 Preset Rooms
@@ -62,7 +72,7 @@ function AddRoomPopup({ onClose, onAdd }) {
                 type="button"
                 onClick={() => setIsCustom(true)}
                 className={`px-4 py-2 rounded-lg ${
-                  isCustom ? 'bg-blue-500 text-white' : 'bg-gray-100'
+                  isCustom ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-800 font-medium'
                 }`}
               >
                 Custom Room
@@ -95,11 +105,11 @@ function AddRoomPopup({ onClose, onAdd }) {
                   setRoomName(e.target.value);
                   setSelectedIcon(e.target.value);
                 }}
-                className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-800"
               >
-                <option value="">Select a room...</option>
+                <option value="" className="text-gray-800 font-medium">Select a room...</option>
                 {Object.entries(roomIcons).map(([key, { label }]) => (
-                  <option key={key} value={key}>
+                  <option key={key} value={key} className="text-gray-800">
                     {label}
                   </option>
                 ))}
@@ -149,13 +159,13 @@ function AddRoomPopup({ onClose, onAdd }) {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border rounded-lg hover:bg-gray-50"
+              className="px-4 py-2 border rounded-lg hover:bg-gray-100 bg-gray-50 text-gray-800 font-medium shadow-sm"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 shadow-sm"
               disabled={(!isCustom && !roomName) || (isCustom && !customName) || !selectedIcon}
             >
               Add Room
