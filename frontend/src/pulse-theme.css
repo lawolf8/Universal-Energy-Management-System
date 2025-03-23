@@ -1,0 +1,105 @@
+/* Pulse Theme Colors */
+:root {
+  --pulse-primary: #8b4513; /* Darker brown for better readability */
+  --pulse-secondary: #cd853f; /* Lighter brown / orange from the logo */
+  --pulse-accent: #f08c00; /* More vibrant orange accent color for better visibility */
+  --pulse-light: #fcf9f6; /* Lighter cream for backgrounds - increased contrast */
+  --pulse-dark: #442510; /* Darker brown for text - better contrast */
+  --pulse-muted: #a98467; /* Muted brown for secondary text */
+  --pulse-border: #e6d7c3; /* Light border color */
+  --pulse-hover: #f6efe4; /* Hover state */
+  --pulse-active: #f0e2ca; /* Active state */
+}
+
+.text-pulse-primary {
+  color: var(--pulse-primary);
+}
+
+.text-pulse-secondary {
+  color: var(--pulse-secondary);
+}
+
+.text-pulse-accent {
+  color: var(--pulse-accent);
+}
+
+.text-pulse-dark {
+  color: var(--pulse-dark);
+}
+
+.text-pulse-muted {
+  color: var(--pulse-muted);
+}
+
+.bg-pulse-primary {
+  background-color: var(--pulse-primary);
+}
+
+.bg-pulse-secondary {
+  background-color: var(--pulse-secondary);
+}
+
+.bg-pulse-accent {
+  background-color: var(--pulse-accent);
+}
+
+.bg-pulse-light {
+  background-color: var(--pulse-light);
+}
+
+.bg-pulse-hover {
+  background-color: var(--pulse-hover);
+}
+
+.bg-pulse-active {
+  background-color: var(--pulse-active);
+}
+
+.border-pulse-primary {
+  border-color: var(--pulse-primary);
+}
+
+.border-pulse-secondary {
+  border-color: var(--pulse-secondary);
+}
+
+.border-pulse-border {
+  border-color: var(--pulse-border);
+}
+
+/* Custom brown text colors for existing components */
+.text-brown-600 {
+  color: #8b4513;
+}
+
+.text-brown-700 {
+  color: #663300;
+}
+
+/* Button styles */
+.btn-pulse-primary {
+  background-color: var(--pulse-primary);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.btn-pulse-primary:hover {
+  background-color: #703910;
+}
+
+.btn-pulse-secondary {
+  background-color: white;
+  color: var(--pulse-primary);
+  border: 1px solid var(--pulse-primary);
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.btn-pulse-secondary:hover {
+  background-color: var(--pulse-hover);
+} 

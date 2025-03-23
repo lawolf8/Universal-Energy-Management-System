@@ -59,7 +59,7 @@ function DevicePopup({ device = {}, setSelectedDevice, rooms = [] }) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-[600px]">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
         {/* Device Header */}
         <div className="flex items-start mb-6">
           <div className="w-32 h-32 bg-gray-100 rounded-lg flex items-center justify-center mr-4">
@@ -143,7 +143,7 @@ function DevicePopup({ device = {}, setSelectedDevice, rooms = [] }) {
 
           {/* Usage Tab Content */}
           {activeTab === "usage" && (
-            <div className="bg-white p-4 rounded">
+            <div className="bg-white rounded">
               <div className="mb-4">
                 <div className="flex space-x-2 mb-4">
                   {["day", "week", "month", "year"].map((range) => (

@@ -1,72 +1,76 @@
 import React, { useState } from 'react';
-import { Thermometer, ChevronUp, ChevronDown } from 'lucide-react';
+import { ThermometerIcon, ChevronUp, ChevronDown } from 'lucide-react';
+import '../pulse-theme.css';
 
-const ThermostatControl = ({ temperature = 72 }) => {
-  const [temp, setTemp] = useState(temperature);
-  const [isAdjusting, setIsAdjusting] = useState(false);
-
-  const adjustTemperature = (amount) => {
-    const newTemp = Math.min(90, Math.max(50, temp + amount));
-    setTemp(newTemp);
-    setIsAdjusting(true);
-    setTimeout(() => setIsAdjusting(false), 1000);
+const ThermostatControl = ({ temperature = 72, unit = '°F', minTemp = 50, maxTemp = 90 }) => {
+  const [currentTemp, setCurrentTemp] = useState(temperature);
+  
+  const increaseTemp = () => {
+    if (currentTemp < maxTemp) {
+      setCurrentTemp(prev => prev + 1);
+    }
+  };
+  
+  const decreaseTemp = () => {
+    if (currentTemp > minTemp) {
+      setCurrentTemp(prev => prev - 1);
+    }
   };
 
-  const handleInputChange = (e) => {
-    const newTemp = Math.min(90, Math.max(50, parseInt(e.target.value) || 50));
-    setTemp(newTemp);
-  };
-
-  const getTemperatureColor = (t) => {
-    if (t < 65) return 'text-blue-500';
-    if (t > 75) return 'text-red-500';
-    return 'text-green-500';
-  };
+  // Determine color based on temperature
+  const isWarm = currentTemp > 75;
+  const tempColor = isWarm ? 'text-red-500' : 'text-blue-500';
+  const bgGradient = isWarm 
+    ? 'from-red-50 to-orange-50' 
+    : 'from-blue-50 to-cyan-50';
+  const iconBg = isWarm ? 'bg-red-50' : 'bg-blue-50';
+  const iconColor = isWarm ? 'text-red-500' : 'text-blue-500';
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold text-gray-800">Thermostat</h2>
-        <Thermometer 
-          size={24} 
-          className={getTemperatureColor(temp)}
-        />
-      </div>
-
-      <div className="flex items-center justify-center gap-6">
-        <button
-          onClick={() => adjustTemperature(-1)}
-          className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-        >
-          <ChevronDown size={24} />
-        </button>
-
-        <div className="text-center">
-          <div className="relative">
-            <input
-              type="number"
-              value={temp}
-              onChange={handleInputChange}
-              className={`text-4xl font-bold w-24 text-center bg-transparent ${getTemperatureColor(temp)}`}
-            />
-            <span className="text-2xl text-gray-600">°F</span>
+    <div className="bg-white rounded-xl shadow-lg border border-gray-200 h-full flex flex-col overflow-hidden">
+      {/* Header */}
+      <div className="p-4 border-b flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className={`p-2 ${iconBg} rounded-full`}>
+            <ThermometerIcon className={`w-5 h-5 ${iconColor}`} />
           </div>
-          {isAdjusting && (
-            <p className="text-sm text-gray-500 animate-fade-out">Adjusting...</p>
-          )}
+          <h2 className="text-xl font-semibold text-gray-800">Thermostat</h2>
         </div>
-
-        <button
-          onClick={() => adjustTemperature(1)}
-          className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-        >
-          <ChevronUp size={24} />
-        </button>
+        <span className="text-sm text-gray-500">{minTemp}-{maxTemp}{unit}</span>
       </div>
-
-      <div className="mt-4 flex justify-between text-sm text-gray-600">
-        <span>Min: 50°F</span>
-        <span>Max: 90°F</span>
+      
+      {/* Main control */}
+      <div className={`flex-1 flex items-center justify-center p-4 bg-gradient-to-r ${bgGradient}`}>
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={decreaseTemp}
+            className="p-2 rounded-full bg-white hover:bg-gray-100 active:bg-gray-200 transition-colors shadow-sm border border-gray-200"
+            aria-label="Decrease temperature"
+            type="button"
+          >
+            <ChevronDown className="w-5 h-5 text-gray-500" />
+          </button>
+          
+          <div className="text-center mx-2">
+            <div className={`text-4xl font-bold ${tempColor}`}>{currentTemp}</div>
+            <div className="text-sm text-gray-500">{unit}</div>
+          </div>
+          
+          <button 
+            onClick={increaseTemp}
+            className="p-2 rounded-full bg-white hover:bg-gray-100 active:bg-gray-200 transition-colors shadow-sm border border-gray-200"
+            aria-label="Increase temperature"
+            type="button"
+          >
+            <ChevronUp className="w-5 h-5 text-gray-500" />
+          </button>
+        </div>
+      </div>
+      
+      {/* Footer */}
+      <div className="p-3 border-t bg-gray-50 flex justify-between items-center text-xs text-gray-500">
+        <span>Current: {currentTemp}{unit}</span>
+        <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">ECO Mode</span>
       </div>
     </div>
   );

@@ -90,11 +90,18 @@ export const RoomEnergyCard = ({ room }) => {
   const [timeRange, setTimeRange] = useState('day');
   const [data, setData] = useState([]);
   const [metrics, setMetrics] = useState(calculateMetrics('day'));
+  const [isOptimized, setIsOptimized] = useState(false);
 
   useEffect(() => {
     setData(generateTimeRangeData(timeRange));
     setMetrics(calculateMetrics(timeRange));
   }, [timeRange]);
+
+  const handleOptimize = () => {
+    setIsOptimized(!isOptimized);
+    // In a real app, you would call your API here to optimize the room
+    console.log(`${isOptimized ? 'Disabling' : 'Enabling'} energy optimization for ${room.name}`);
+  };
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-6">
@@ -122,7 +129,19 @@ export const RoomEnergyCard = ({ room }) => {
 
       {showDetails && (
         <div className="mt-4 space-y-6">
-          <TimeRangeSelector timeRange={timeRange} setTimeRange={setTimeRange} />
+          <div className="flex justify-between items-center">
+            <TimeRangeSelector timeRange={timeRange} setTimeRange={setTimeRange} />
+            <button
+              onClick={handleOptimize}
+              className={`px-4 py-2 rounded-lg transition-colors ${
+                isOptimized 
+                  ? 'bg-green-500 hover:bg-green-600 text-white' 
+                  : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+              }`}
+            >
+              {isOptimized ? 'Optimized' : 'Optimize'}
+            </button>
+          </div>
           
           <div className="grid grid-cols-3 gap-4 mb-6">
             <EnergyMetricCard
@@ -142,11 +161,27 @@ export const RoomEnergyCard = ({ room }) => {
             <EnergyMetricCard
               icon={TrendingDown}
               title="Savings"
-              value={metrics.savings}
+              value={isOptimized ? metrics.savings * 1.2 : metrics.savings}
               unit="%"
               color="text-purple-500"
             />
           </div>
+
+          {isOptimized && (
+            <div className="bg-green-50 p-4 rounded-lg border border-green-100 mb-4">
+              <div className="flex items-start">
+                <div className="bg-green-100 p-1 rounded-full mr-3">
+                  <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-green-800 font-medium">Room optimized</p>
+                  <p className="text-green-700 text-sm">This room is running in energy-efficient mode, saving approximately {(metrics.savings * 1.2).toFixed(1)}% energy.</p>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="h-64">
             <LineChart width={600} height={250} data={data}>

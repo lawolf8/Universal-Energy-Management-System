@@ -12,6 +12,13 @@ const userData = {
   thermostat: {
     temperature: 25,
   },
+  rooms: [
+    { name: "Living Room", icon: "Living Room" },
+    { name: "Bedroom", icon: "Bedroom" },
+    { name: "Kitchen", icon: "Kitchen" },
+    { name: "Dining Room", icon: "Dining Room" },
+    { name: "Play Room", icon: "Play Room" }
+  ],
   devices: [
     { id: 1, name: "Smart Light", status: "On", room: "Living Room", watts: 10, cost: 0.12, image: "/assets/images/lightbulb.png" },
     { id: 2, name: "Air Conditioner", status: "Off", room: "Bedroom", watts: 1500, cost: 0.20, image: "/assets/images/noniot.png" },

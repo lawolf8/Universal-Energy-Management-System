@@ -1,29 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/Dashboard";
 import AccountSettings from "./components/AccountSettings";
 import DevicePopup from "./components/DevicePopup";
 import userData from "./utils/userData";
 import "./index.css";
+import "./pulse-theme.css";
+import Header from './components/Header';
 
 function App() {
   const [rooms, setRooms] = useState([
-    { name: "Living Room" },
-    { name: "Bedroom" },
-    { name: "Kitchen" },
-    { name: "Dining Room" },
-    { name: "Play Room" }
+    { name: "Living Room", icon: "Living Room" },
+    { name: "Bedroom", icon: "Bedroom" },
+    { name: "Kitchen", icon: "Kitchen" },
+    { name: "Dining Room", icon: "Dining Room" },
+    { name: "Play Room", icon: "Play Room" }
   ]);
   
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [showAccountSettings, setShowAccountSettings] = useState(false);
   const [selectedDevice, setSelectedDevice] = useState(null);
 
-  const addRoom = () => {
-    const roomName = prompt("Enter the new room name:");
-    if (roomName) {
-      setRooms([...rooms, { name: roomName }]);
-    }
+  const addRoom = (roomData) => {
+    setRooms(prevRooms => [...prevRooms, {
+      name: roomData.name,
+      icon: roomData.icon,
+      notes: roomData.notes
+    }]);
   };
 
   const goHome = () => {
@@ -56,7 +59,8 @@ function App() {
         {showAccountSettings ? (
           <AccountSettings 
             setShowAccountSettings={setShowAccountSettings} 
-            userData={userData}  // Make sure userData is properly passed
+            userData={userData}
+            rooms={rooms}
           />
         ) : (
           <Dashboard 
