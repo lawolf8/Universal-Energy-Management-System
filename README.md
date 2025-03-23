@@ -1,11 +1,10 @@
 # Pulse: Universal Energy Management System
 
-![Smart Home UI](misc/frontend_goal.png)
+![Home Dashboard](misc/home_page.png)
 
 ## Key Features Showcase
 
 ### Home Dashboard
-![Home Dashboard](misc/home_page.png)
 The home dashboard provides a comprehensive overview of your energy usage, smart device control, and environmental conditions. Monitor real-time consumption, control lights and thermostat settings, and view weather information all from a single intuitive interface.
 
 ### Scheduling Interface
