@@ -5,3 +5,5 @@ python-dotenv==1.0.0
 pgeocode==0.4.1
 pandas==2.1.0
 gunicorn==21.2.0
+kagglehub==0.2.5
+kaggle==1.5.16

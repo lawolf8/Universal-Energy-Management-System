@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 from data.api_wrappers.weather import WeatherFetcher
 from data.api_wrappers.electric_cost import UtilityRatesFetcher
+from data.api_wrappers.kaggle_appliances import KaggleAppliancesAPI
 
 # Load environment variables
 load_dotenv()
@@ -15,6 +16,7 @@ CORS(app)  # Enable CORS for all routes
 # Initialize API wrappers
 weather_fetcher = WeatherFetcher()
 utility_rates_fetcher = UtilityRatesFetcher(os.getenv("nreal_api_key"))
+kaggle_api = KaggleAppliancesAPI()
 
 @app.route('/api/weather', methods=['GET'])
 def get_weather():
@@ -121,6 +123,30 @@ def get_electric_cost():
     
     except Exception as e:
         return jsonify({'error': f'Failed to fetch electricity cost data: {str(e)}'}), 500
+
+@app.route('/api/appliances', methods=['GET'])
+def get_appliances_data():
+    """
+    Endpoint to get household appliances power consumption data
+    Examples:
+      - /api/appliances                       # Get data for all appliances
+      - /api/appliances?name=refrigerator     # Get data for a specific appliance
+      - /api/appliances?average=true          # Get average consumption data
+    """
+    try:
+        appliance_name = request.args.get('name')
+        average_only = request.args.get('average', 'false').lower() == 'true'
+        
+        if average_only:
+            # Get average power consumption data
+            return jsonify(kaggle_api.get_average_consumption(appliance_name))
+        else:
+            # Get detailed appliance data
+            sample_size = int(request.args.get('sample_size', 5))
+            return jsonify(kaggle_api.get_appliance_data(appliance_name, sample_size))
+    
+    except Exception as e:
+        return jsonify({'error': f'Failed to fetch appliance data: {str(e)}'}), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
