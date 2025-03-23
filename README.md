@@ -2,6 +2,13 @@
 
 ![Smart Home UI](misc/frontend_goal.png)
 
+## Demo Video
+
+<video width="100%" controls>
+  <source src="misc/Pulse_Website_Frontend.mov" type="video/quicktime">
+  Your browser does not support the video tag.
+</video>
+
 ## Overview
 
 The **Universal Energy Management System (UEMS)** is a smart home energy management interface that connects IoT and non-IoT devices to a centralized console. The front page is designed to provide an intuitive and interactive user experience, allowing users to monitor and optimize their energy consumption efficiently.
