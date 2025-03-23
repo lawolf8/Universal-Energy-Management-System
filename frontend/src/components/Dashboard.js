@@ -13,6 +13,8 @@ const Dashboard = ({ user, selectedRoom, setSelectedDevice }) => {
   const [activeTab, setActiveTab] = useState("all");
   const [showFilters, setShowFilters] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const [electricityData, setElectricityData] = useState(null);
+  const [electricityRate, setElectricityRate] = useState(0.12); // Default rate
 
   // Simulate loading on initial render
   useEffect(() => {
@@ -21,6 +23,33 @@ const Dashboard = ({ user, selectedRoom, setSelectedDevice }) => {
     }, 800);
     return () => clearTimeout(timer);
   }, []);
+
+  // Fetch electricity cost data
+  useEffect(() => {
+    const fetchElectricityData = async () => {
+      try {
+        const address = user.address || user.zipCode || "33620";
+        const response = await fetch(`http://localhost:5000/api/electric-cost?address=${address}`);
+        
+        if (!response.ok) {
+          throw new Error(`Electric cost API returned status ${response.status}`);
+        }
+        
+        const data = await response.json();
+        setElectricityData(data);
+        
+        // Update electricity rate if available
+        if (data && data.residential_rate) {
+          setElectricityRate(parseFloat(data.residential_rate));
+        }
+      } catch (err) {
+        console.error("Failed to fetch electricity cost data:", err);
+        // Keep using the default rate
+      }
+    };
+
+    fetchElectricityData();
+  }, [user.address, user.zipCode]);
 
   // Handle keyboard shortcut for search
   useEffect(() => {
@@ -212,14 +241,15 @@ const Dashboard = ({ user, selectedRoom, setSelectedDevice }) => {
               <h2 className="text-xl font-semibold">Cost Summary</h2>
             </div>
             <p className="text-3xl font-bold text-green-500">
-              ${(user.totalConsumption * 0.12).toFixed(2)}
+              ${(user.totalConsumption * electricityRate).toFixed(2)}
             </p>
             <div className="mt-3 flex items-center text-sm text-gray-600">
               <span className="flex items-center">
                 <svg className="w-4 h-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clipRule="evenodd" />
                 </svg>
-                Based on $0.12 per kWh
+                Based on ${electricityRate.toFixed(2)} per kWh
+                {electricityData?.utility_name && ` from ${electricityData.utility_name}`}
               </span>
             </div>
           </div>
@@ -253,7 +283,11 @@ const Dashboard = ({ user, selectedRoom, setSelectedDevice }) => {
           />
 
           {/* Weather widget - now in the same row */}
-          <WeatherWidget weather={user.weather} />
+          <div className="col-span-1 max-w-full h-full" style={{ minHeight: '280px' }}>
+            <WeatherWidget 
+              zipCode={user.zipCode || "33620"} 
+            />
+          </div>
         </div>
       ) : (
         // Only LightingControl in room-specific view

@@ -6,6 +6,7 @@ API Information: https://www.weather.gov/documentation/services-web-api
 import requests
 import json
 import pgeocode
+import pandas as pd  # Added pandas import
 from dotenv import load_dotenv
 import os
 import time
@@ -139,7 +140,6 @@ def format_weather_data(weather_data: dict) -> None:
 
 if __name__ == "__main__":
     load_dotenv()
-    import pandas as pd  # Added pandas import for isna check
     
     location_data = {
         "street": "4202 E Fowler Ave",
