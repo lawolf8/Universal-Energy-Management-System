@@ -1,6 +1,6 @@
 # Pulse: Universal Energy Management System
 
-![Smart Home UI](misc/Pulse Website Frontend.mov)
+![Smart Home UI](misc/Pulse_Website_Frontend.mov)
 
 ## Overview
 
