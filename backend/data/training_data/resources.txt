@@ -1,1 +1,2 @@
 Washing Machine Data: https://github.com/siemens/simatic-ai-launcher/tree/master/datasets/washing-machine
+Others: https://www.kaggle.com/datasets/ecoco2/household-appliances-power-consumption?resource=download&select=tv_290.csv
