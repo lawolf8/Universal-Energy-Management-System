@@ -9,7 +9,7 @@
 *.cursor
 .cursor-project
 .myrules.txt
-*myrules.mdc
+myrules.mdc
 .cursor-logs/
 .cursor-cache/
 
