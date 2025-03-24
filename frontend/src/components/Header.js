@@ -1,7 +1,11 @@
 import React from 'react';
+import ProfileDropdown from './ProfileDropdown';
+import { useAuth } from '../context/AuthContext';
 import '../pulse-theme.css';
 
-const Header = ({ title }) => {
+const Header = ({ title, setShowAccountSettings }) => {
+  const { isAuthenticated } = useAuth();
+
   return (
     <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
       <div className="flex items-center space-x-2">
@@ -19,8 +23,11 @@ const Header = ({ title }) => {
           <span className="text-sm text-pulse-secondary">Smart Energy Management System</span>
         </div>
       </div>
-      <div className="hidden md:flex items-center space-x-2">
-        <span className="text-gray-600 text-sm">Saving energy, empowering homes</span>
+      <div className="flex items-center space-x-4">
+        <span className="hidden md:inline text-gray-600 text-sm">Saving energy, empowering homes</span>
+        {isAuthenticated && <ProfileDropdown 
+          setShowAccountSettings={setShowAccountSettings} 
+        />}
       </div>
     </div>
   );

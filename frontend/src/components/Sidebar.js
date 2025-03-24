@@ -18,7 +18,6 @@ const Sidebar = ({
   rooms, 
   addRoom, 
   setSelectedRoom, 
-  setShowAccountSettings, 
   goHome,
   // Callback for room removal and updating. Customize as needed.
   onRemoveRoom = room => console.log("Remove Room", room),
@@ -166,12 +165,6 @@ const Sidebar = ({
           <FaPlus className="mr-2" /> Add Room
         </button>
       </nav>
-      <button
-        className="p-4 bg-pulse-primary text-white w-full hover:bg-pulse-secondary flex items-center justify-center"
-        onClick={setShowAccountSettings}
-      >
-        <FaUserCog className="mr-2" /> Account Settings
-      </button>
 
       {showAddRoomPopup && (
         <AddRoomPopup

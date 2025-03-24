@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaUser, FaClock, FaPlug, FaSave, FaArrowLeft, FaPlusCircle, FaHeadset, FaTimes } from "react-icons/fa";
 
 function AccountSettings({
@@ -40,9 +40,11 @@ function AccountSettings({
         watts: 4
       }
     ]
-  }
+  },
+  activeTab = "profile",
+  setActiveTab
 }) {
-  const [activeTab, setActiveTab] = useState("profile");
+  const [localActiveTab, setLocalActiveTab] = useState(activeTab);
   const [selectedTimes, setSelectedTimes] = useState({});
   const [isSelecting, setIsSelecting] = useState(false);
   const [selectionStart, setSelectionStart] = useState(null);
@@ -62,6 +64,21 @@ function AccountSettings({
     zipCode: userData.account?.address?.zipCode || ""
   });
   
+  // Use the activeTab prop if provided
+  useEffect(() => {
+    if (activeTab) {
+      setLocalActiveTab(activeTab);
+    }
+  }, [activeTab]);
+
+  // When local tab changes, update parent state if provided
+  const handleTabChange = (tab) => {
+    setLocalActiveTab(tab);
+    if (setActiveTab) {
+      setActiveTab(tab);
+    }
+  };
+
   // Schedule settings state
   const [scheduleSettings, setScheduleSettings] = useState({
     energySaving: false,
@@ -245,7 +262,7 @@ function AccountSettings({
     });
     
     // Switch to devices tab
-    setActiveTab("devices");
+    handleTabChange("devices");
   };
 
   // Handle support form submission
@@ -800,7 +817,7 @@ function AccountSettings({
               <h3 className="text-lg font-medium text-gray-700 mb-2">No devices found</h3>
               <p className="text-gray-500 mb-4">You don't have any devices set up yet.</p>
               <button
-                onClick={() => setActiveTab("add-device")}
+                onClick={() => handleTabChange("add-device")}
                 className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
               >
                 Add Your First Device
@@ -1294,66 +1311,66 @@ function AccountSettings({
         <div className="flex border-b">
           <button
             className={`px-4 py-3 font-medium text-sm flex items-center border-b-2 transition-colors ${
-              activeTab === "profile" 
+              localActiveTab === "profile" 
                 ? "text-blue-500 border-blue-500" 
                 : "text-gray-500 border-transparent hover:text-gray-800"
             }`}
-            onClick={() => setActiveTab("profile")}
+            onClick={() => handleTabChange("profile")}
           >
             <FaUser className="mr-2" /> Profile
           </button>
           
           <button
             className={`px-4 py-3 font-medium text-sm flex items-center border-b-2 transition-colors ${
-              activeTab === "schedule" 
+              localActiveTab === "schedule" 
                 ? "text-blue-500 border-blue-500" 
                 : "text-gray-500 border-transparent hover:text-gray-800"
             }`}
-            onClick={() => setActiveTab("schedule")}
+            onClick={() => handleTabChange("schedule")}
           >
             <FaClock className="mr-2" /> Schedule
           </button>
           
           <button
             className={`px-4 py-3 font-medium text-sm flex items-center border-b-2 transition-colors ${
-              activeTab === "devices" 
+              localActiveTab === "devices" 
                 ? "text-blue-500 border-blue-500" 
                 : "text-gray-500 border-transparent hover:text-gray-800"
             }`}
-            onClick={() => setActiveTab("devices")}
+            onClick={() => handleTabChange("devices")}
           >
             <FaPlug className="mr-2" /> Devices
           </button>
           
           <button
             className={`px-4 py-3 font-medium text-sm flex items-center border-b-2 transition-colors ${
-              activeTab === "add-device" 
+              localActiveTab === "add-device" 
                 ? "text-blue-500 border-blue-500" 
                 : "text-gray-500 border-transparent hover:text-gray-800"
             }`}
-            onClick={() => setActiveTab("add-device")}
+            onClick={() => handleTabChange("add-device")}
           >
             <FaPlusCircle className="mr-2" /> Add Device
           </button>
           
           <button
             className={`px-4 py-3 font-medium text-sm flex items-center border-b-2 transition-colors ${
-              activeTab === "support" 
+              localActiveTab === "support" 
                 ? "text-blue-500 border-blue-500" 
                 : "text-gray-500 border-transparent hover:text-gray-800"
             }`}
-            onClick={() => setActiveTab("support")}
+            onClick={() => handleTabChange("support")}
           >
             <FaHeadset className="mr-2" /> Pulse Support
           </button>
         </div>
         
         <div className="flex-1 overflow-y-auto p-6">
-          {activeTab === "profile" && renderProfileTab()}
-          {activeTab === "schedule" && renderScheduleTab()}
-          {activeTab === "devices" && renderDevicesTab()}
-          {activeTab === "add-device" && renderAddDeviceTab()}
-          {activeTab === "support" && renderSupportTab()}
+          {localActiveTab === "profile" && renderProfileTab()}
+          {localActiveTab === "schedule" && renderScheduleTab()}
+          {localActiveTab === "devices" && renderDevicesTab()}
+          {localActiveTab === "add-device" && renderAddDeviceTab()}
+          {localActiveTab === "support" && renderSupportTab()}
         </div>
         
         <div className="p-4 border-t flex justify-between">
