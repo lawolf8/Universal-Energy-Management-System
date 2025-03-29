@@ -43,6 +43,30 @@ export const AuthProvider = ({ children }) => {
     setError(null);
     
     try {
+      // Check for developer credentials
+      if (
+        credentials.email === process.env.REACT_APP_DEV_EMAIL &&
+        credentials.password === process.env.REACT_APP_DEV_PASSWORD
+      ) {
+        const devUserData = {
+          id: 'dev-1',
+          email: process.env.REACT_APP_DEV_EMAIL,
+          name: process.env.REACT_APP_DEV_NAME,
+          role: 'admin',
+        };
+
+        const devToken = 'dev-token';
+        localStorage.setItem('token', devToken);
+        
+        if (rememberMe) {
+          localStorage.setItem('pulseUser', JSON.stringify(devUserData));
+        }
+        
+        setUser(devUserData);
+        return devUserData;
+      }
+
+      // Regular login flow
       const response = await userApi.login(credentials);
       
       // Save token and user data
